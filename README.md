@@ -36,6 +36,7 @@ data = msgpack.parse(bytes)
 |  datetime scalar | timestamp 32  |
 
 array is fixarray, array 16 or array 32 depending on the length
+|     missing   | nil |
 
 To allow dumping custom types and raw binary vectors, we also support two classes:
 

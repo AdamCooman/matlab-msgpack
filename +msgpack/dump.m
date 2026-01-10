@@ -120,6 +120,8 @@ switch class(data)
             return
         end
         data = msgpack.dumptools.string_vector(data,computer_is_bigendian);
+    case "missing"
+        data = uint8(192);
     case "char"
         data = msgpack.dumptools.string_scalar(data,computer_is_bigendian);
     case "datetime"
