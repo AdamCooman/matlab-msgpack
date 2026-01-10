@@ -15,27 +15,17 @@ data = msgpack.parse(bytes)
 
 |          Matlab  |  MsgPack   |
 | -----------------|------------------ |
-|    double scalar | float64  |
-|    double vector | array* of float64 |
-|    single scalar | float32 |
-|    single vector | array* of float32 |
-|   logical scalar | bool |
-|   logical vector | array* of bool  |
+|    double  | float64  |
+|    single  | float32 |
+|   logical  | bool |
 |      int8 scalar | int 8 or fixint when possible  |
-|      intX scalar | int X (X = 16,32,64)  |
-|      intX vector | array of int X  |
-|     uintX scalar | uint X  |
-|     uintX vector | array* of uint X  |
+|      intX | int X (X = 16,32,64)  |
+|     uintX | uint X (X = 8,16,32,64) |
 |    string scalar | fixstr or str 8, str 16 or str 32 depending on the length |
-|    string vector | array* of fixstr or str 8, str 16 or str 32  |
-|      char scalar | fixstr  |
 |      char vector | fixstr or str 8, str 16 or str 32 depending on the length |
-|       cell array | array*  |
-|    struct scalar | fixmap, map16 or map32 depending on the number of fields  |
-|    struct vector | array* of fixmap, map16 or map32 depending on the number of fields  |
-|  datetime scalar | timestamp 32  |
-
-array is fixarray, array 16 or array 32 depending on the length
+|       cell array | fixarray, array 16 or array 32 depending on the length  |
+|    struct  | fixmap, map16 or map32 depending on the number of fields  |
+|  datetime | timestamp 32  |
 |     missing   | nil |
 
 To allow dumping custom types and raw binary vectors, we also support two classes:
@@ -51,14 +41,25 @@ There is no way of encoding exts
 
 | MsgPack        | Matlab         |
 | -------------- | -------------- |
-| string         | string         |
-| number         | scalar         |
-| `true`/`false` | logical        |
 | nil            | empty matrix   |
-| array          | cell array     |
-| map            | containers.Map |
-| bin            | uint8          |
-| ext            | uint8          |
+| float64       | double         |
+| float32       | single         |
+| fixint         | int8           |
+| int8         | int8           |
+| int16         | int16           |
+| int32         | int32           |
+| int64         | int64           |
+| uint8         | uint8           |
+| uint16         | uint16           |
+| uint32         | uint32           |
+| uint64         | uint64           |
+| fixstr, str8, str16 str32  | string         |
+| bool           | logical        |
+| fixarray, array16 or array32  | cell array     |
+| fixmap, map16, map32 | containers.Map |
+| bin8, bin16, bin32   | msgpack.Bin    |
+| ext8,ext16,ext32  | msgpack.Ext    |
+| fixext1, fixext2, fixext4, fixext8, fixext16 | msgpack.Ext |
 
 Note that since `structs` don't support arbitrary field names, 
 they can't be used for representing `maps`. We use `containers.Map` instead.
