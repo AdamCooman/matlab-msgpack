@@ -1,34 +1,48 @@
-# A MessagePack implementation for Matlab and Octave
+# A MessagePack implementation for Matlab
 
-The code is written in pure Matlab, and has no dependencies beyond Matlab itself. And it works in recent versions of Octave, too.
-
-The files in this repository are taken from [Transplant](https://github.com/bastibe/transplant).
+The code is written in pure Matlab, and has no dependencies beyond Matlab itself.
 
 ## Basic Usage:
+
 ```matlab
 data = {'life, the universe, and everything', struct('the_answer', 42)};
-bytes = dumpmsgpack(data)
-data = parsemsgpack(bytes)
+bytes = msgpack.dump(data)
+data = msgpack.parse(bytes)
 % returns: {'life, the universe, and everything', containers.Map('the_answer', 42)}
 ```
 
 ## Converting Matlab to MsgPack:
 
-| Matlab         | MsgPack                   |
-| -------------- | ------------------------- |
-| string         | string                    |
-| scalar         | number                    |
-| logical        | `true`/`false`            |
-| vector         | array of numbers          |
-| uint8 vector   | bin                       |
-| matrix         | array of array of numbers |
-| empty matrix   | nil                       |
-| cell array     | array                     |
-| cell matrix    | array of arrays           |
-| struct         | map                       |
-| containers.Map | map                       |
-| struct array   | array of maps             |
-| handles        | raise error               |
+|          Matlab  |  MsgPack   |
+| -----------------|------------------ |
+|    double scalar | float64  |
+|    double vector | array* of float64 |
+|    single scalar | float32 |
+|    single vector | array* of float32 |
+|   logical scalar | bool |
+|   logical vector | array* of bool  |
+|      int8 scalar | int 8 or fixint when possible  |
+|      intX scalar | int X (X = 16,32,64)  |
+|      intX vector | array of int X  |
+|     uintX scalar | uint X  |
+|     uintX vector | array* of uint X  |
+|    string scalar | fixstr or str 8, str 16 or str 32 depending on the length |
+|    string vector | array* of fixstr or str 8, str 16 or str 32  |
+|      char scalar | fixstr  |
+|      char vector | fixstr or str 8, str 16 or str 32 depending on the length |
+|       cell array | array*  |
+|    struct scalar | fixmap, map16 or map32 depending on the number of fields  |
+|    struct vector | array* of fixmap, map16 or map32 depending on the number of fields  |
+|  datetime scalar | timestamp 32  |
+
+array is fixarray, array 16 or array 32 depending on the length
+
+To allow dumping custom types and raw binary vectors, we also support two classes:
+
+|          Matlab  |  MsgPack |
+| -----------------|------------------ |
+|      msgpack.Bin | bin 8,16,32 depending on the size |
+|      msgpack.Ext | fixext 1,2,4,8 or ext 8,16,32 depending on the size |
 
 There is no way of encoding exts
 
@@ -45,45 +59,6 @@ There is no way of encoding exts
 | bin            | uint8          |
 | ext            | uint8          |
 
-Note that since `structs` don't support arbitrary field names, they can't be used for representing `maps`. We use `containers.Map` instead.
-
-## Tests
- ```matlab
- runtests()
- ```
-
-## License
-
-MATLAB (R) is copyright of the Mathworks
-
-Copyright (c) 2014 Bastian Bechtold
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-1. Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the
-   distribution.
-
-3. Neither the name of the copyright holder nor the names of its
-   contributors may be used to endorse or promote products derived
-   from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Note that since `structs` don't support arbitrary field names, 
+they can't be used for representing `maps`. We use `containers.Map` instead.
 
