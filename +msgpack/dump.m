@@ -139,10 +139,29 @@ switch class(data)
             data = msgpack.dump(data,computer_is_bigendian);
             return
         end
-        for field = string(fieldnames(data))'
-            data.(field) = msgpack.dump(data.(field),computer_is_bigendian);
+        fields = fieldnames(data);
+        values = struct2cell(data);
+        data = msgpack.dumptools.map_header(numel(fields),computer_is_bigendian);
+        for ii = 1 : numel(values)
+            data = [data,...
+                    msgpack.dumptools.string_scalar(fields{ii},computer_is_bigendian),...
+                     msgpack.dump(values{ii},computer_is_bigendian)];
         end
-        data = msgpack.dumptools.struct_scalar(data,computer_is_bigendian);
+    case "dictionary"
+        if ~isscalar(data)
+            % TODO: fast version of this which avoids the num2cell
+            data = num2cell(data);
+            data = msgpack.dump(data,computer_is_bigendian);
+            return
+        end
+        fields = data.keys();
+        values = data.values();
+        data = msgpack.dumptools.map_header(numel(fields),computer_is_bigendian);
+        for ii = 1 : numel(values)
+            data = [data,...
+                msgpack.dumptools.string_scalar(fields(ii),computer_is_bigendian),...
+                msgpack.dump(values(ii),computer_is_bigendian)];
+        end
     case "cell"
         number_of_elements = numel(data);
         for ii = 1 : number_of_elements
