@@ -2,24 +2,25 @@ function data = dump(data,computer_is_bigendian)
 % creates a msgpack byte sequence from the provided matlab object
 %
 %   data = msgpack.dump(object)
-% 
+%
 % where object can be any of the types listed below
 % data is a uint8 vector with the bytes of the msgpack
 %
 % The mapping between Matlab and MsgPack types is the following:
-% 
+%
 %          Matlab  |  MsgPack
 % -----------------|------------------
-%    double scalar | float64 
+%    double scalar | float64
 %    double vector | array* of float64
 %    single scalar | float32
 %    single vector | array* of float32
-%   logical scalar | bool 
-%   logical vector | array* of bool 
+%   logical scalar | bool
+%   logical vector | array* of bool
 %      int8 scalar | int 8 or fixint when possible
 %      intX scalar | int X (X = 16,32,64)
 %      intX vector | array of int X
-%     uintX scalar | uint X
+%     uint8 scalar | uint 8 or fixint when possible
+%     uintX scalar | uint X (X = 16,32,64)
 %     uintX vector | array* of uint X
 %    string scalar | fixstr or str 8, str 16 or str 32 depending on the length
 %    string vector | array* of fixstr or str 8, str 16 or str 32
@@ -27,7 +28,7 @@ function data = dump(data,computer_is_bigendian)
 %      char vector | fixstr or str 8, str 16 or str 32 depending on the length
 %       cell array | array*
 %    struct scalar | fixmap, map16 or map32 depending on the number of fields
-%    struct vector | array* of fixmap, map16 or map32 depending on the number of fields  
+%    struct vector | array* of fixmap, map16 or map32 depending on the number of fields
 %  datetime scalar | timestamp 32
 %
 % * array is fixarray, array 16 or array 32 depending on the length

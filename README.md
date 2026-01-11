@@ -20,7 +20,8 @@ data = msgpack.parse(bytes)
 |   logical  | bool |
 |      int8 scalar | int 8 or fixint when possible  |
 |      intX | int X (X = 16,32,64)  |
-|     uintX | uint X (X = 8,16,32,64) |
+|     uint8 | uint 8 or fixint when possible |
+|     uintX | uint X (X = 16,32,64) |
 |    string scalar | fixstr or str 8, str 16 or str 32 depending on the length |
 |      char vector | fixstr or str 8, str 16 or str 32 depending on the length |
 |       cell array | fixarray, array 16 or array 32 depending on the length  |
