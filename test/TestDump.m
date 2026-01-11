@@ -78,24 +78,30 @@ classdef TestDump < matlab.unittest.TestCase
                 uint8([130, msgpack.dump('one'), 1, msgpack.dump('two'), 2]))
             % map16
             data = struct();
-            pack = uint8.empty;
+            pack = uint8([222, 0, 16]);
             for n = 1 : 16
-                data.("x"+n) = uint8(n);
-                pack = [pack msgpack.dump(['x' num2str(n)]) uint8(n)];
+                value = int8(n);
+                data.("x"+n) = value;
+                pack = [pack,...
+                    msgpack.dump("x"+n),...
+                    msgpack.dump(value)];%#ok
             end
             test.assertEqual( ...
                 msgpack.dump(data) , ...
-                uint8([222, 0, 16, pack]))
+                pack)
             % map32
             data = struct();
-            pack = uint8.empty;
+            pack = uint8([223, 0, 1, 0, 0]);
             for n = 1 : 2^16
-                data.("x"+n) = uint8(n);
-                pack = [pack msgpack.dump(['x' num2str(n)]) uint8(n)];
+                value = int8(n);
+                data.("x"+n) = value;
+                pack = [pack,...
+                    msgpack.dump("x"+n),...
+                    msgpack.dump(value)];%#ok
             end
             test.assertEqual( ...
                 msgpack.dump(data) , ...
-                uint8([223, 0, 1, 0, 0, pack]))
+                pack)
         end
     end
 
