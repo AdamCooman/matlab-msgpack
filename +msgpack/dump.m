@@ -148,8 +148,7 @@ switch class(data)
         for ii = 1 : number_of_elements
             data{ii} = msgpack.dump(data{ii},computer_is_bigendian);
         end
-        data = cat(2,data{:});
-        data = msgpack.dumptools.add_array_header(data,number_of_elements,computer_is_bigendian);
+        data = cat(2,msgpack.dumptools.array_header(number_of_elements,computer_is_bigendian),data{:});
     case "msgpack.Bin"
         if ~isscalar(data)
             % TODO: fast version of this which avoids the num2cell

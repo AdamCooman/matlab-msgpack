@@ -13,6 +13,5 @@ arguments (Output)
 end
 number_of_elements = numel(data);
 data = [repmat(0xcc,1,number_of_elements);data.'];
-data = data(:).';
-data = msgpack.dumptools.add_array_header(data,number_of_elements,computer_is_bigendian);
+data = [msgpack.dumptools.array_header(number_of_elements,computer_is_bigendian),data(:).'];
 end

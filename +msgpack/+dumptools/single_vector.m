@@ -31,6 +31,5 @@ if ~computer_is_bigendian
     data = data(end:-1:1,:);
 end
 data = cat(1,repmat(0xca,1,number_of_values),data);
-data = data(:).';
-data = msgpack.dumptools.add_array_header(data,number_of_values,computer_is_bigendian);
+data = [msgpack.dumptools.array_header(number_of_values,computer_is_bigendian),data(:).'];
 end

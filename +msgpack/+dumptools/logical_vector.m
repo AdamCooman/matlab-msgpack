@@ -18,5 +18,5 @@ arguments (Output)
     data (1,:) uint8
 end
 data = 0xc2 + uint8(data);
-data = msgpack.dumptools.add_array_header(data,numel(data),computer_is_bigendian);
+data = [msgpack.dumptools.array_header(numel(data),computer_is_bigendian),data.'];
 end

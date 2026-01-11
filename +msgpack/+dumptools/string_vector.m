@@ -6,10 +6,8 @@ end
 arguments (Output)
     pack (1,:) uint8
 end
-number_of_elements = numel(data);
-pack = uint8.empty();
+pack = msgpack.dumptools.array_header(numel(data),computer_is_bigendian);
 for value = data.'
     pack = [pack,msgpack.dumptools.string_scalar(value,computer_is_bigendian)];
 end
-pack = msgpack.dumptools.add_array_header(data,number_of_elements,computer_is_bigendian);
 end
