@@ -3,11 +3,8 @@ close all
 clc
 
 addpath("..");
-profile on
 
-types = ["double" "single" "uint8" "uint16" "uint32" "uint64" "int8" "int16" "int32" "int64"];
-number_of_fields = 1:10:256;
-
+number_of_fields = 1:20:512;
 for ii = 1 : numel(number_of_fields)
     disp(number_of_fields(ii))
     data = random_struct(number_of_fields(ii));
@@ -15,11 +12,6 @@ for ii = 1 : numel(number_of_fields)
     res(ii).dump_time = timeit(@()msgpack.dump(data),1);
     res(ii).parse_time = timeit(@()msgpack.parse(pack),1);
 end
-
-
-profile off
-profile viewer
-
 
 figure(1)
 tiledlayout(1,2)
@@ -30,8 +22,6 @@ hold on
 grid on
 legend show
 title("dump")
-ax = gca;
-ax.LineStyleOrder = ["-","-+","-o"];
 
 nexttile(2)
 loglog(number_of_fields,[res.parse_time])
@@ -39,8 +29,6 @@ hold on
 grid on
 legend show
 title("parse")
-ax = gca;
-ax.LineStyleOrder = ["-","-+","-o"];
 
 function res = random_struct(number_of_fields)
 for ind = 1 : number_of_fields
