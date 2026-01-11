@@ -18,7 +18,7 @@ function obj = parse(bytes)
 %        uintX | uintX (X=8,16,32,64)
 %         intX |  intX (X=8,16,32,64)
 %        array | cell array
-%          map | containers.Map
+%          map | msgpack.Map
 %          bin | msgpack.Bin
 %          ext | msgpack.Ext
 %    timestamp | datetime
@@ -221,9 +221,6 @@ end
 end
 
 function [out, idx] = parse_map(len, bytes, idx, computer_is_bigendian)
-out = containers.Map();
-for n=1:len
-    [key, idx] = parse_local(bytes, idx, computer_is_bigendian);
-    [out(key), idx] = parse_local(bytes, idx, computer_is_bigendian);
-end
+keyvalues = parse_array(2*len,bytes,idx,computer_is_bigendian);
+out = msgpack.Map(keyvalues(1:2:end),keyvalues(2:2:end));
 end

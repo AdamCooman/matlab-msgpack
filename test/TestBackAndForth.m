@@ -67,5 +67,17 @@ classdef TestBackAndForth < matlab.unittest.TestCase
             value_test = msgpack.parse(pack);
             test.assertEqual(value_test,value);
         end
+        function test_struct(test)
+            for number_of_fields = 2.^(0:6)
+                value = struct();
+                for ind = 1 : number_of_fields 
+                    value.("field_"+ind) = randi(255,1,1,"int8");
+                end
+                pack = msgpack.dump(value);
+                value_test = msgpack.parse(pack);
+                % msgpack.parse returns a msgpack.Map which we cast to a struct
+                test.assertEqual(struct(value_test),value);
+            end
+        end
     end
 end

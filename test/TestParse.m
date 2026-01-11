@@ -67,18 +67,19 @@ classdef TestParse < matlab.unittest.TestCase
         end
         function test_map(test)
             c = msgpack.parse(uint8([130, msgpack.dump('one'), 1, msgpack.dump('two'), 2]));
-            d = struct('one', uint8(1), 'two', uint8(2));
-            test.assertEqual(c,d)
+            d = struct('one', int8(1), 'two', int8(2));
+            test.assertEqual(struct(c),d)
             
             data = struct();
             pack = uint8([222, 0, 16]);
-            for n=[1 10 11 12 13 14 15 16 2 3 4 5 6 7 8 9] % default struct field order
-                data.(['x' num2str(n)]) = uint8(n);
-                pack = [pack msgpack.dump(['x' num2str(n)]) uint8(n)];
+            for n= 1 : 16
+                val = int8(n)-8;
+                data.(['x' num2str(n)]) = val;
+                pack = [pack msgpack.dump(['x' num2str(n)]) typecast(val,"uint8")];
             end
             c = msgpack.parse(pack);
             d = data;
-            test.assertEqual(c,d)
+            test.assertEqual(struct(c),d)
             
         end
     end
