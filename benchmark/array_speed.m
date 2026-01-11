@@ -1,28 +1,29 @@
 clear variables
-% close all
+close all
 clc
 
 addpath("..");
-profile on
 
-types = ["double" "single" "uint8" "uint16" "uint32" "uint64" "int8" "int16" "int32" "int64"];
+types = ["double" "single" "uint8" "uint16" "uint32" "uint64" "int8" "int16" "int32" "int64" "logical"];
 number_of_elements = 2.^(1:2:16);
 for type = types
     bytes_per_element = 8/numel(typecast(zeros(1,8,"uint8"),type));
     for ii = 1 : numel(number_of_elements)
         disp(type+" "+number_of_elements(ii))
         data = randi(255,1,bytes_per_element*number_of_elements(ii),"uint8");
-        data = typecast(data,type);
+        if type == "logical"
+            data = data>0;
+        else
+            data = typecast(data,type);
+        end
         pack = msgpack.dump(data);
         res(ii).(type+"_dump_time") = timeit(@()msgpack.dump(data),1);
         res(ii).(type+"_parse_time") = timeit(@()msgpack.parse(pack),1);
     end
 end
 
-profile off
-profile viewer
 
-
+%% plot the result
 figure(1)
 tiledlayout(1,2)
 
