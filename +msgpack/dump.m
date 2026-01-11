@@ -41,79 +41,85 @@ function data = dump(data,computer_is_bigendian)
 %      msgpack.Ext | fixext 1,2,4,8 or ext 8,16,32 depending on the size
 %
 arguments (Input)
-    data 
+    data
     computer_is_bigendian (1,1) logical = msgpack.dumptools.is_bigendian()
 end
 arguments (Output)
     data (1,:) uint8
 end
+if isnumeric(data)
+    switch class(data)
+        case "double"
+            if isscalar(data)
+                data = msgpack.dumptools.double_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.double_vector(data(:),computer_is_bigendian);
+        case "single"
+            if isscalar(data)
+                data = msgpack.dumptools.single_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.single_vector(data(:),computer_is_bigendian);
+        case "logical"
+            if isscalar(data)
+                data = msgpack.dumptools.logical_scalar(data);
+                return
+            end
+            data = msgpack.dumptools.logical_vector(data(:),computer_is_bigendian);
+        case "uint8"
+            if isscalar(data)
+                data = msgpack.dumptools.uint8_scalar(data);
+                return
+            end
+            data = msgpack.dumptools.uint8_vector(data(:),computer_is_bigendian);
+        case "uint16"
+            if isscalar(data)
+                data = msgpack.dumptools.uint16_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.uint16_vector(data(:),computer_is_bigendian);
+        case "uint32"
+            if isscalar(data)
+                data = msgpack.dumptools.uint32_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.uint32_vector(data(:),computer_is_bigendian);
+        case "uint64"
+            if isscalar(data)
+                data = msgpack.dumptools.uint64_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.uint64_vector(data(:),computer_is_bigendian);
+        case "int8"
+            if isscalar(data)
+                data = msgpack.dumptools.int8_scalar(data);
+                return
+            end
+            data = msgpack.dumptools.int8_vector(data(:),computer_is_bigendian);
+        case "int16"
+            if isscalar(data)
+                data = msgpack.dumptools.int16_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.int16_vector(data(:),computer_is_bigendian);
+        case "int32"
+            if isscalar(data)
+                data = msgpack.dumptools.int32_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.int32_vector(data(:),computer_is_bigendian);
+        case "int64"
+            if isscalar(data)
+                data = msgpack.dumptools.int64_scalar(data,computer_is_bigendian);
+                return
+            end
+            data = msgpack.dumptools.int64_vector(data(:),computer_is_bigendian);
+    end
+    return
+end
+
 switch class(data)
-    case "double"
-        if isscalar(data)
-            data = msgpack.dumptools.double_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.double_vector(data(:),computer_is_bigendian);
-    case "single"
-        if isscalar(data)
-            data = msgpack.dumptools.single_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.single_vector(data(:),computer_is_bigendian);
-    case "logical"
-        if isscalar(data)
-            data = msgpack.dumptools.logical_scalar(data);
-            return
-        end
-        data = msgpack.dumptools.logical_vector(data(:),computer_is_bigendian);
-    case "uint8"
-        if isscalar(data)
-            data = msgpack.dumptools.uint8_scalar(data);
-            return
-        end
-        data = msgpack.dumptools.uint8_vector(data(:),computer_is_bigendian);
-    case "uint16"
-        if isscalar(data)
-            data = msgpack.dumptools.uint16_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.uint16_vector(data(:),computer_is_bigendian);
-    case "uint32"
-        if isscalar(data)
-            data = msgpack.dumptools.uint32_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.uint32_vector(data(:),computer_is_bigendian);
-    case "uint64"
-        if isscalar(data)
-            data = msgpack.dumptools.uint64_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.uint64_vector(data(:),computer_is_bigendian);
-    case "int8"
-        if isscalar(data)
-            data = msgpack.dumptools.int8_scalar(data);
-            return
-        end
-        data = msgpack.dumptools.int8_vector(data(:),computer_is_bigendian);
-    case "int16"
-        if isscalar(data)
-            data = msgpack.dumptools.int16_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.int16_vector(data(:),computer_is_bigendian);
-    case "int32"
-        if isscalar(data)
-            data = msgpack.dumptools.int32_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.int32_vector(data(:),computer_is_bigendian);
-    case "int64"
-        if isscalar(data)
-            data = msgpack.dumptools.int64_scalar(data,computer_is_bigendian);
-            return
-        end
-        data = msgpack.dumptools.int64_vector(data(:),computer_is_bigendian);
     case "string"
         if isscalar(data)
             data = msgpack.dumptools.string_scalar(data,computer_is_bigendian);
