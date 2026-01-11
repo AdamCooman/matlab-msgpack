@@ -6,13 +6,15 @@ function data = uint16_scalar(data,computer_is_bigendian)
 % |  0xcd  |ZZZZZZZZ|ZZZZZZZZ|
 % +--------+--------+--------+
 % 
-arguments (Input)
-    data (1,1) uint16
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,3) uint8
-end
+
+% arguments (Input)
+%     data (1,1) uint16
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,3) uint8
+% end
+
 data = typecast(data,"uint8").';
 if ~computer_is_bigendian
     data = data(end:-1:1);

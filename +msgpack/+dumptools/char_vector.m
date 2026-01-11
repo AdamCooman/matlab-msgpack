@@ -28,13 +28,13 @@ function data = char_vector(data,computer_is_bigendian)
 % * AAAAAAAA_AAAAAAAA_AAAAAAAA_AAAAAAAA is a 32-bit big-endian unsigned integer which represents N
 % * N is the length of data
 
-arguments (Input)
-    data (1,:) char
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,:) uint8
-end
+% arguments (Input)
+%     data (1,:) char
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
 
 data = unicode2native(data,"utf-8");
 number_of_bytes = length(data);

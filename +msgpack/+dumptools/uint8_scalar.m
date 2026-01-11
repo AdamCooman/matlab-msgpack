@@ -8,12 +8,14 @@ function data = uint8_scalar(data)
 % +--------+--------+
 % |  0xcc  |ZZZZZZZZ|
 % +--------+--------+
-arguments (Input)
-    data (1,1) uint8
-end
-arguments (Output)
-    data (1,:) uint8
-end
+
+% arguments (Input)
+%     data (1,1) uint8
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 if data>127
     data = [0xcc,data];
 end

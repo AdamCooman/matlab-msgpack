@@ -5,13 +5,14 @@ function data = int64_vector(data,computer_is_bigendian)
 % |  0xd3  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
 % +--------+--------+--------+--------+--------+--------+--------+--------+--------+
 
-arguments (Input)
-    data (:,1) int64
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,:) uint8
-end
+% arguments (Input)
+%     data (:,1) int64
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 number_of_elements = numel(data);
 data = typecast(data,"uint8");
 data = reshape(data,8,[]);

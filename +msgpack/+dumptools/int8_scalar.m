@@ -16,12 +16,13 @@ function data = int8_scalar(data)
 % |  0xd0  |ZZZZZZZZ|
 % +--------+--------+
 
-arguments (Input)
-    data (1,1) int8
-end
-arguments (Output)
-    data (1,:) uint8
-end
+% arguments (Input)
+%     data (1,1) int8
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 if data > int8(-32)
     data = typecast(data,"uint8");
 else

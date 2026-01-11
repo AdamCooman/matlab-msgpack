@@ -22,13 +22,15 @@ function pack = map_header(number_of_fields,computer_is_bigendian)
 % * N is the size of a map
 % * odd elements in objects are keys of a map
 % * the next element of a key is its associated value
-arguments (Input)
-    number_of_fields (1,1) uint32
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    pack (1,:) uint8
-end
+
+% arguments (Input)
+%     number_of_fields (1,1) uint32
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     pack (1,:) uint8
+% end
+
 if number_of_fields < 16
     header = 0b10000000+uint8(number_of_fields);
     number_bytes = [];
@@ -37,7 +39,7 @@ elseif number_of_fields < 2^16
     number_bytes = uint16(number_of_fields);
 else
     header = 0xdf;
-    number_bytes = number_of_fields;
+    number_bytes = uint32(number_of_fields);
 end
 number_bytes = typecast(number_bytes,"uint8");
 if ~computer_is_bigendian

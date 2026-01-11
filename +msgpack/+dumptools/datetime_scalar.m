@@ -18,15 +18,15 @@ function pack = datetime_scalar(data,computer_is_bigendian)
 % +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
 % |  0xc7  |   12   |   -1   |nanoseconds in 32-bit unsigned int |                   seconds in 64-bit signed int                        |
 % +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
-% 
-arguments (Input)
-    data (1,1) datetime
-    computer_is_bigendian (1,1) logical
-end
 
-arguments (Output)
-    pack (1,:) uint8
-end
+% arguments (Input)
+%     data (1,1) datetime
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     pack (1,:) uint8
+% end
+
 seconds = uint32(posixtime(data));
 seconds = typecast(seconds,"uint8");
 if ~computer_is_bigendian

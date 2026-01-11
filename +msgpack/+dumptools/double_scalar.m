@@ -18,13 +18,15 @@ function data = double_scalar(data,computer_is_bigendian)
 % Extension of precision from single-precision to double-precision does not lose precision.
 % * YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY is a big-endian
 % IEEE 754 double precision floating point number
-arguments (Input)
-    data (1,1) double
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,9) uint8
-end
+
+% arguments (Input)
+%     data (1,1) double
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,9) uint8
+% end
+
 data = typecast(data,"uint8");
 if ~computer_is_bigendian
     data = data(end:-1:1);

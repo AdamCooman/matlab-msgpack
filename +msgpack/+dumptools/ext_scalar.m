@@ -50,13 +50,15 @@ function data = ext_scalar(data,computer_is_bigendian)
 % * N is a length of data
 % * type is a signed 8-bit signed integer
 % * type < 0 is reserved for future extension including 2-byte type information
-arguments (Input)
-    data (1,1) msgpack.Ext
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,:) uint8
-end
+
+% arguments (Input)
+%     data (1,1) msgpack.Ext
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 data = [get_header(numel(data.bytes),computer_is_bigendian),...
         typecast(data.type,"uint8"),...
         data.bytes];

@@ -4,13 +4,15 @@ function data = int16_vector(data,computer_is_bigendian)
 % +--------+--------+--------+
 % |  0xd1  |ZZZZZZZZ|ZZZZZZZZ|
 % +--------+--------+--------+
-arguments (Input)
-    data (:,1) int16
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,:) uint8
-end
+
+% arguments (Input)
+%     data (:,1) int16
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 number_of_elements = numel(data);
 data = typecast(data,"uint8");
 data = reshape(data,2,[]);

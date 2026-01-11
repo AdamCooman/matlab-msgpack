@@ -1,11 +1,12 @@
 function data = uint32_vector(data,computer_is_bigendian)
-arguments (Input)
-    data (:,1) uint32
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,:) uint8
-end
+% arguments (Input)
+%     data (:,1) uint32
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 number_of_elements = numel(data);
 data = typecast(data,"uint8");
 data = reshape(data,4,[]);

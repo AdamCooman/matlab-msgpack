@@ -17,13 +17,15 @@ function data = single_vector(data,computer_is_bigendian)
 % Extension of precision from single-precision to double-precision does not lose precision.
 % * YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY_YYYYYYYY is a big-endian
 % IEEE 754 double precision floating point number
-arguments (Input)
-    data (:,1) single
-    computer_is_bigendian (1,1) logical
-end
-arguments (Output)
-    data (1,:) uint8
-end
+
+% arguments (Input)
+%     data (:,1) single
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 number_of_values = numel(data);
 data = typecast(data,"uint8");
 data = reshape(data,4,[]);

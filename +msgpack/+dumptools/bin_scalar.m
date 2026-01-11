@@ -24,15 +24,15 @@ function data = bin_scalar(data,computer_is_bigendian)
 % * YYYYYYYY_YYYYYYYY is a 16-bit big-endian unsigned integer which represents N
 % * ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ_ZZZZZZZZ is a 32-bit big-endian unsigned integer which represents N
 % * N is the length of data
-%
-arguments (Input)
-    data (1,1) msgpack.Bin
-    computer_is_bigendian (1,1) logical
-end
 
-arguments (Output)
-    data (1,:) uint8
-end
+% arguments (Input)
+%     data (1,1) msgpack.Bin
+%     computer_is_bigendian (1,1) logical
+% end
+% arguments (Output)
+%     data (1,:) uint8
+% end
+
 number_of_bytes = numel(data.bytes);
 if number_of_bytes < 256
     header = 0xc4;

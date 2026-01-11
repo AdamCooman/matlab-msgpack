@@ -1,5 +1,4 @@
 function data = logical_scalar(data)
-
 % from the spec
 % false:
 % +--------+
@@ -10,11 +9,13 @@ function data = logical_scalar(data)
 % +--------+
 % |  0xc3  |
 % +--------+
-arguments (Input)
-    data (1,1) logical
-end
-arguments (Output)
-    data (1,1) uint8
-end
+
+% arguments (Input)
+%     data (1,1) logical
+% end
+% arguments (Output)
+%     data (1,1) uint8
+% end
+
 data = 0xc2 + uint8(data);
 end
