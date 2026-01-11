@@ -42,7 +42,7 @@ There is no way of encoding exts
 
 | MsgPack        | Matlab         |
 | -------------- | -------------- |
-| nil            | empty matrix   |
+| nil            | missing   |
 | float64       | double         |
 | float32       | single         |
 | fixint         | int8           |
@@ -57,7 +57,7 @@ There is no way of encoding exts
 | fixstr, str8, str16 str32  | string         |
 | bool           | logical        |
 | fixarray, array16 or array32  | cell array     |
-| fixmap, map16, map32 | containers.Map |
+| fixmap, map16, map32 | msgpack.Map |
 | bin8, bin16, bin32   | msgpack.Bin    |
 | ext8,ext16,ext32  | msgpack.Ext    |
 | fixext1, fixext2, fixext4, fixext8, fixext16 | msgpack.Ext |
