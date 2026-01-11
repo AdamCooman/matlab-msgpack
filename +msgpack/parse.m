@@ -50,17 +50,17 @@ elseif bitand(0b11100000, current_byte) == 0b11100000
 elseif bitand(0b11110000, current_byte) == 0b10000000
     % decode fixmap
     len = bitand(0b00001111, current_byte);
-    [obj, idx] = parse_map(len, bytes, idx+1, computer_is_bigendian);
+    [obj, idx] = parse_map(double(len), bytes, idx+1, computer_is_bigendian);
     return
 elseif bitand(0b11110000, current_byte) == 0b10010000
     % decode fixarray
     len = bitand(0b00001111, current_byte);
-    [obj, idx] = parse_array(len, bytes, idx+1, computer_is_bigendian);
+    [obj, idx] = parse_array(double(len), bytes, idx+1, computer_is_bigendian);
     return
 elseif bitand(0b11100000, current_byte) == 0b10100000
     % decode fixstr
     len = bitand(0b00011111, current_byte);
-    [obj, idx] = parse_string(len, bytes, idx + 1);
+    [obj, idx] = parse_string(double(len), bytes, idx + 1);
     return
 end
 
@@ -168,19 +168,19 @@ switch current_byte
         len = bytes(idx+1);
         [obj, idx] = parse_string(double(len), bytes, idx+2);
     case uint8(218) % str16
-        len = bytes_to_scalar(bytes(idx+1:idx+2), "uint16", computer_is_bigendian);
+        len = bytes_to_scalar(bytes(idx+[1 2]), "uint16", computer_is_bigendian);
         [obj, idx] = parse_string(double(len), bytes, idx+3);
     case uint8(219) % str32
         len = bytes_to_scalar(bytes(idx+1:idx+4), "uint32",computer_is_bigendian);
         [obj, idx] = parse_string(double(len), bytes, idx+5);
     case uint8(220) % array16
-        len = bytes_to_scalar(bytes(idx+1:idx+2), "uint16",computer_is_bigendian);
+        len = bytes_to_scalar(bytes(idx+[1 2]), "uint16",computer_is_bigendian);
         [obj, idx] = parse_array(double(len), bytes, idx+3, computer_is_bigendian);
     case uint8(221) % array32
         len = bytes_to_scalar(bytes(idx+1:idx+4), "uint32",computer_is_bigendian);
         [obj, idx] = parse_array(double(len), bytes, idx+5, computer_is_bigendian);
     case uint8(222) % map16
-        len = bytes_to_scalar(bytes(idx+1:idx+2), "uint16",computer_is_bigendian);
+        len = bytes_to_scalar(bytes(idx+[1 2]), "uint16",computer_is_bigendian);
         [obj, idx] = parse_map(double(len), bytes, idx+3, computer_is_bigendian);
     case uint8(223) % map32
         len = bytes_to_scalar(bytes(idx+1:idx+4), "uint32",computer_is_bigendian);
@@ -199,7 +199,7 @@ bytes = typecast(bytes, type);
 end
 
 function [str, idx] = parse_string(len, bytes, idx)
-str = string(native2unicode(bytes(idx:idx+len-1), "utf-8"));
+str = string(native2unicode(bytes(idx:(idx+len-1)), "utf-8"));
 idx = idx + len;
 end
 

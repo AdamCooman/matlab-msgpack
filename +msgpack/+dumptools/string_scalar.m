@@ -37,7 +37,7 @@ arguments (Output)
 end
 
 data = unicode2native(data,"utf-8");
-number_of_bytes = uint32(length(data));
+number_of_bytes = length(data);
 if number_of_bytes < 32
     header = 0b10100000+uint8(number_of_bytes);
     number_bytes = [];
@@ -49,7 +49,7 @@ elseif number_of_bytes < 2^16
     number_bytes = uint16(number_of_bytes);
 else
     header = 0xdb;
-    number_bytes = number_of_bytes;
+    number_bytes = uint32(number_of_bytes);
 end
 number_bytes = typecast(number_bytes,"uint8");
 if ~computer_is_bigendian
