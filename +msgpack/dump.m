@@ -123,7 +123,7 @@ switch class(data)
     case "missing"
         data = uint8(192);
     case "char"
-        data = msgpack.dumptools.string_scalar(data,computer_is_bigendian);
+        data = msgpack.dumptools.char_vector(data,computer_is_bigendian);
     case "datetime"
         if ~isscalar(data)
             % TODO: fast version of this which avoids the num2cell
