@@ -85,13 +85,13 @@ switch current_byte
         [obj, idx] = parse_bin(len, bytes, idx+5);
     case uint8(199) % ext8
         len = bytes(idx+1);
-        [obj, idx] = parse_ext(double(len), bytes, idx+2);
+        [obj, idx] = parse_ext(double(len), bytes, idx+2,computer_is_bigendian);
     case uint8(200) % ext16
         len = bytes_to_scalar(bytes(idx+1:idx+2), "uint16", computer_is_bigendian);
-        [obj, idx] = parse_ext(double(len), bytes, idx+3);
+        [obj, idx] = parse_ext(double(len), bytes, idx+3,computer_is_bigendian);
     case uint8(201) % ext32
         len = bytes_to_scalar(bytes(idx+1:idx+4), "uint32", computer_is_bigendian);
-        [obj, idx] = parse_ext(double(len), bytes, idx+5);
+        [obj, idx] = parse_ext(double(len), bytes, idx+5,computer_is_bigendian);
     case uint8(202) % float32
         if computer_is_bigendian
             obj = typecast(bytes(idx+1:idx+4),"single");
@@ -155,15 +155,15 @@ switch current_byte
         end
         idx = idx+9;
     case uint8(212) % fixext1
-        [obj, idx] = parse_ext(1, bytes, idx+1);
+        [obj, idx] = parse_ext(1, bytes, idx+1,computer_is_bigendian);
     case uint8(213) % fixext2
-        [obj, idx] = parse_ext(2, bytes, idx+1);
+        [obj, idx] = parse_ext(2, bytes, idx+1,computer_is_bigendian);
     case uint8(214) % fixext4
-        [obj, idx] = parse_ext(4, bytes, idx+1);
+        [obj, idx] = parse_ext(4, bytes, idx+1,computer_is_bigendian);
     case uint8(215) % fixext8
-        [obj, idx] = parse_ext(8, bytes, idx+1);
+        [obj, idx] = parse_ext(8, bytes, idx+1,computer_is_bigendian);
     case uint8(216) % fixext16
-        [obj, idx] = parse_ext(16, bytes, idx+1);
+        [obj, idx] = parse_ext(16, bytes, idx+1,computer_is_bigendian);
     case uint8(217) % str8
         len = bytes(idx+1);
         [obj, idx] = parse_string(double(len), bytes, idx+2);
@@ -208,9 +208,24 @@ out = msgpack.Bin(bytes(idx:idx+len-1));
 idx = idx + len;
 end
 
-function [out, idx] = parse_ext(len, bytes, idx)
-out = msgpack.Ext(typecast(bytes(idx),"int8"),bytes(idx+1:idx+len));
+function [out, idx] = parse_ext(len, bytes, idx,computer_is_bigendian)
+type = typecast(bytes(idx),"int8");
+data_bytes = bytes(idx+1:idx+len);
+switch type
+    case -1
+        out = parse_timestamp(data_bytes,computer_is_bigendian);
+    otherwise
+        out = msgpack.Ext(type,data_bytes);
+end
 idx = idx + len + 1;
+end
+
+function res = parse_timestamp(bytes,computer_is_bigendian)
+assert(numel(bytes)==4,"we only support timestamp32")
+if ~computer_is_bigendian
+    bytes = bytes(end:-1:1);
+end
+res = datetime(typecast(bytes,"uint32"),"ConvertFrom","posixtime");
 end
 
 function [out, idx] = parse_array(len, bytes, idx, computer_is_bigendian)

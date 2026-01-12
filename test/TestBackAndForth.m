@@ -87,5 +87,12 @@ classdef TestBackAndForth < matlab.unittest.TestCase
                 test.assertEqual(struct(value_test),value);
             end
         end
+        function test_datetime(test)
+            value = datetime("now");
+            pack = msgpack.dump(value);
+            value_test = msgpack.parse(pack);
+            % we can be off by 1 second
+            test.assertTrue((value_test-value)<duration(0,0,1));
+        end
     end
 end
