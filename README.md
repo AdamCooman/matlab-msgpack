@@ -62,6 +62,7 @@ There is no way of encoding exts
 | ext8,ext16,ext32  | msgpack.Ext    |
 | fixext1, fixext2, fixext4, fixext8, fixext16 | msgpack.Ext |
 
-Note that since `structs` don't support arbitrary field names, 
-they can't be used for representing `maps`. We use `containers.Map` instead.
+Note that since `structs`, `containers.Map` nor `dictionary` support the flexibility of the maps used in msgpack, 
+we return an object of class `msgpack.Map` instead.
+This object has a `struct(obj)` method to try casting it to a matlab struct.
 
