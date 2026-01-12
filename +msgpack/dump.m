@@ -51,12 +51,16 @@ end
 if isnumeric(data)
     switch class(data)
         case "double"
+            assert(isreal(data),"complex numbers are not supported")
+            assert(~issparse(data),"sparse is not supported")
             if isscalar(data)
                 data = msgpack.dumptools.double_scalar(data,computer_is_bigendian);
                 return
             end
             data = msgpack.dumptools.double_vector(data(:),computer_is_bigendian);
         case "single"
+            assert(isreal(data),"complex numbers are not supported")
+            assert(~issparse(data),"sparse is not supported")
             if isscalar(data)
                 data = msgpack.dumptools.single_scalar(data,computer_is_bigendian);
                 return
