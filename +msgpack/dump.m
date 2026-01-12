@@ -62,12 +62,6 @@ if isnumeric(data)
                 return
             end
             data = msgpack.dumptools.single_vector(data(:),computer_is_bigendian);
-        case "logical"
-            if isscalar(data)
-                data = msgpack.dumptools.logical_scalar(data);
-                return
-            end
-            data = msgpack.dumptools.logical_vector(data(:),computer_is_bigendian);
         case "uint8"
             if isscalar(data)
                 data = msgpack.dumptools.uint8_scalar(data);
@@ -121,6 +115,12 @@ if isnumeric(data)
 end
 
 switch class(data)
+    case "logical"
+        if isscalar(data)
+            data = msgpack.dumptools.logical_scalar(data);
+            return
+        end
+        data = msgpack.dumptools.logical_vector(data(:),computer_is_bigendian);
     case "string"
         if isscalar(data)
             data = msgpack.dumptools.string_scalar(data,computer_is_bigendian);
